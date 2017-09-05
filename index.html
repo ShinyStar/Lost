@@ -6,8 +6,8 @@
     </body>
     <script>
         var c = document.getElementById("c");
-        c.width=400;
-        c.height=400;
+        c.width=512;
+        c.height=512;
         var ctx = c.getContext("2d");
         ctx.imageSmoothingEnabled = false;
         var img = new Image();
@@ -60,12 +60,11 @@
         }
 
         function gameLoop(){
-            ctx.clearRect(0,0, 400,400);
+            ctx.clearRect(0,0, 512,512);
             //Paint map
             for(var i=0; i < tiles * tilesize*2; i+=tilesize*2){
                 for(var j=0; j < tiles * tilesize*2; j+=tilesize*2){
                     ctx.drawImage(img, tilesize*room[i/(tilesize*2)][j/(tilesize*2)], 16, tilesize, tilesize, j, i, tilesize*2, tilesize*2);
-                    //ctx.drawImage(img, 64, 0, tilesize, tilesize, j, i, tilesize*2, tilesize*2);
                 }
             }
             //Move and paint chara
@@ -73,49 +72,18 @@
                 moveChara();
                 frame=(frame+1)%2;
             }
-            // if(vx==0 && vy==0){
-            //     switch(dir){
-            //         case "down":
-            //         ctx.drawImage(img, 0, 0, 16, 16, charaX*tilesize, charaY*tilesize, 16*2, 16*2);
-            //         break;
-            //         case "up":
-            //         ctx.drawImage(img, 16, 0, 16, 16, charaX*tilesize, charaY*tilesize, 16*2, 16*2);
-            //         break;
-            //         case "left":
-            //         ctx.drawImage(img, 48, 0, 16, 16, charaX*tilesize, charaY*tilesize, 16*2, 16*2);
-            //         break;
-            //         case "right":
-            //         ctx.drawImage(img, 32, 0, 16, 16, charaX*tilesize, charaY*tilesize, 16*2, 16*2);
-            //         break;
-            //     }
-            // }else{
-            //     switch(dir){
-            //         case "down":
-            //         ctx.drawImage(img, 0, frame*16, 16, 16, charaX*tilesize, charaY*tilesize, 16*2, 16*2);
-            //         break;
-            //         case "up":
-            //         ctx.drawImage(img, 16, frame*16, 16, 16, charaX*tilesize, charaY*tilesize, 16*2, 16*2);
-            //         break;
-            //         case "left":
-            //         ctx.drawImage(img, 48, frame*16, 16, 16, charaX*tilesize, charaY*tilesize, 16*2, 16*2);
-            //         break;
-            //         case "right":
-            //         ctx.drawImage(img, 32, frame*16, 16, 16, charaX*tilesize, charaY*tilesize, 16*2, 16*2);
-            //         break;
-            //     }
-            // }
             switch(dir){
                     case "down":
-                    ctx.drawImage(img, 0, 0, 16, 16, charaX*tilesize, charaY*tilesize, 16*2, 16*2);
+                    ctx.drawImage(img, 0, 0, 16, 16, charaX*tilesize*2-8, charaY*tilesize*2-8, 16*2, 16*2);
                     break;
                     case "up":
-                    ctx.drawImage(img, 16, 0, 16, 16, charaX*tilesize, charaY*tilesize, 16*2, 16*2);
+                    ctx.drawImage(img, 16, 0, 16, 16, charaX*tilesize*2-8, charaY*tilesize*2-8, 16*2, 16*2);
                     break;
                     case "left":
-                    ctx.drawImage(img, 48, 0, 16, 16, charaX*tilesize, charaY*tilesize, 16*2, 16*2);
+                    ctx.drawImage(img, 48, 0, 16, 16, charaX*tilesize*2-8, charaY*tilesize*2-8, 16*2, 16*2);
                     break;
                     case "right":
-                    ctx.drawImage(img, 32, 0, 16, 16, charaX*tilesize, charaY*tilesize, 16*2, 16*2);
+                    ctx.drawImage(img, 32, 0, 16, 16, charaX*tilesize*2-8, charaY*tilesize*2-8, 16*2, 16*2);
                     break;
                 }
             turn=(turn+1)%20;
@@ -186,9 +154,9 @@
             charaX+=vx;
             charaY+=vy;
             if(charaX<0){charaX=0;}
-            if(charaX>tiles){charaX=tiles;}
+            if(charaX>tiles-1){charaX=tiles-1;}
             if(charaY<0){charaY=0;}
-            if(charaY>tiles){charaY=tiles;}
+            if(charaY>tiles-1){charaY=tiles-1;}
         }
 
         newRoom();
