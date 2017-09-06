@@ -10,8 +10,10 @@
         c.height=512;
         var ctx = c.getContext("2d");
         ctx.imageSmoothingEnabled = false;
-        var img = new Image();
-        img.src = "js13k17.png";
+        var clover = new Image();
+        clover.src = "clover.png";
+        var tilesImg = new Image();
+        tilesImg.src = "tiles.png";
 
         var tilesize = 8;
         var tiles = 32;
@@ -75,6 +77,7 @@
             });
         }
 
+        //Create the sequence of directions
         var map;
         function newMap(){
             map = [];
@@ -93,28 +96,39 @@
         var rooms = [];
         function generateRooms(){
             for (var n=0; n<nRooms; n++){
-                for (var i=0; i < tiles; i++){
-                    rooms.push(newRoom());
-                }
+                rooms.push(newRoom(n));
             }
-            //Add special stuff to first one here
         }
         
-        function newRoom(){
+        function newRoom(nRoom){
             var room=[];
             for (var i=0; i < tiles; i++){
                 room[i]=[];
             }
+
             for (var i=0; i < tiles; i++){
                 for (var j=0; j < tiles; j++){
                     if(Math.random()>0.9){
-                        var n = Math.floor(Math.random()*8)
+                        var n = 27 + Math.floor(Math.random()*8)
                     }else{
-                        var n = Math.floor(Math.random()*4);
+                        var n = 27 + Math.floor(Math.random()*4);
                     }
                     room[i].push(n);
                 }
             }
+
+            if(nRoom==0){
+                room[tiles/2-1][tiles/2-2]=0;
+                room[tiles/2-1][tiles/2-1]=0;
+                room[tiles/2-1][tiles/2]=0;
+                room[tiles/2][tiles/2-2]=0;
+                room[tiles/2][tiles/2]=0;
+                room[tiles/2][tiles/2-1]=0;
+                room[tiles/2+1][tiles/2-2]=0;
+                room[tiles/2+1][tiles/2]=0;
+                room[tiles/2+1][tiles/2-1]=0;
+            }
+
             return room;
         }
 
@@ -123,7 +137,7 @@
             //Paint map
             for(var i=0; i < tiles * tilesize*2; i+=tilesize*2){
                 for(var j=0; j < tiles * tilesize*2; j+=tilesize*2){
-                    ctx.drawImage(img, tilesize*rooms[currentRoom][i/(tilesize*2)][j/(tilesize*2)], 16, tilesize, tilesize, j, i, tilesize*2, tilesize*2);
+                    ctx.drawImage(tilesImg, tilesize*rooms[currentRoom][i/(tilesize*2)][j/(tilesize*2)], 0, tilesize, tilesize, j, i, tilesize*2, tilesize*2);
                 }
             }
             //Move and paint chara
@@ -133,16 +147,16 @@
             }
             switch(dir){
                     case "down":
-                    ctx.drawImage(img, 0, 0, 16, 16, charaX*tilesize*2-8, charaY*tilesize*2-8, 16*2, 16*2);
+                    ctx.drawImage(clover, 0, 0, 16, 16, charaX*tilesize*2-8, charaY*tilesize*2-8, 16*2, 16*2);
                     break;
                     case "up":
-                    ctx.drawImage(img, 16, 0, 16, 16, charaX*tilesize*2-8, charaY*tilesize*2-8, 16*2, 16*2);
+                    ctx.drawImage(clover, 16, 0, 16, 16, charaX*tilesize*2-8, charaY*tilesize*2-8, 16*2, 16*2);
                     break;
                     case "left":
-                    ctx.drawImage(img, 48, 0, 16, 16, charaX*tilesize*2-8, charaY*tilesize*2-8, 16*2, 16*2);
+                    ctx.drawImage(clover, 48, 0, 16, 16, charaX*tilesize*2-8, charaY*tilesize*2-8, 16*2, 16*2);
                     break;
                     case "right":
-                    ctx.drawImage(img, 32, 0, 16, 16, charaX*tilesize*2-8, charaY*tilesize*2-8, 16*2, 16*2);
+                    ctx.drawImage(clover, 32, 0, 16, 16, charaX*tilesize*2-8, charaY*tilesize*2-8, 16*2, 16*2);
                     break;
                 }
             turn=(turn+1)%20;
@@ -264,7 +278,6 @@
         }
 
         assignAlphabet();
-        console.log(JSON.stringify(alphabet));
         newMap();
         generateRooms();
         gameLoop();
