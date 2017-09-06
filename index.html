@@ -15,6 +15,7 @@
 
         var tilesize = 8;
         var tiles = 32;
+        var nRooms = 10; //Add different levels?
         var gamestate = 1;
 
         var charaX, charaY;
@@ -22,6 +23,7 @@
         var frame=0;
         var turn = 0;
         var dir = "down";
+        var i = 0;
 
         var map;
         function newMap(){
@@ -35,11 +37,15 @@
                 }
                 map.push(dir);
             }
+            console.log(JSON.stringify(map));
         }
 
-        var room = [];
-        for (var i=0; i < tiles; i++){
-            room[i]=[];
+        var rooms = [];
+        for (var n=0; n<nRooms;n++){
+            rooms[n]=[]
+            for (var i=0; i < tiles; i++){
+                rooms[n][i]=newRoom();
+            }
         }
         function newRoom(){
             charaX = tiles/2-1;
@@ -153,12 +159,53 @@
         function moveChara(){
             charaX+=vx;
             charaY+=vy;
-            if(charaX<0){charaX=0;}
-            if(charaX>tiles-1){charaX=tiles-1;}
-            if(charaY<0){charaY=0;}
-            if(charaY>tiles-1){charaY=tiles-1;}
+            correct=map[i];
+            if(charaX<0){
+                console.log(correct +"== left")
+                if (correct=="left"){
+                    newRoom();
+                    charaX=tiles-3;
+                    charaY=tiles/2-1;
+                    dir="left";
+                    i++;
+                    console.log("correct")
+                }else{
+                    i=0;
+                }
+            }
+            if(charaX>tiles-1){
+                if (correct=="right"){
+                    newRoom();
+                    charaX=3;
+                    charaY=tiles/2-1;
+                    dir="right";
+                    i++;
+                    console.log("correct")
+                }
+            }
+            if(charaY<0){
+                if (correct=="up"){
+                    newRoom();
+                    charaX=tiles/2-1;
+                    charaY=tiles-3;
+                    dir="up";
+                    i++;
+                    console.log("correct")
+                }
+            }
+            if(charaY>tiles-1){
+                if (correct=="down"){
+                    newRoom();
+                    charaX=tiles/2-1;
+                    charaY=3;
+                    dir="down";
+                    i++;
+                    console.log("correct")
+                }
+            }
         }
 
+        newMap();
         newRoom();
         gameLoop();
     </script>
