@@ -25,6 +25,56 @@
         var dir = "down";
         var currentRoom = 0;
 
+        var alphabet = [{"letter":"a", "img": 0},
+            {"letter":"b", "img": 0},
+            {"letter":"c", "img": 0},
+            {"letter":"d", "img": 0},
+            {"letter":"e", "img": 0},
+            {"letter":"f", "img": 0},
+            {"letter":"g", "img": 0},
+            {"letter":"h", "img": 0},
+            {"letter":"i", "img": 0},
+            {"letter":"j", "img": 0},
+            {"letter":"k", "img": 0},
+            {"letter":"l", "img": 0},
+            {"letter":"m", "img": 0},
+            {"letter":"n", "img": 0},
+            {"letter":"o", "img": 0},
+            {"letter":"p", "img": 0},
+            {"letter":"q", "img": 0},
+            {"letter":"r", "img": 0},
+            {"letter":"s", "img": 0},
+            {"letter":"t", "img": 0},
+            {"letter":"u", "img": 0},
+            {"letter":"v", "img": 0},
+            {"letter":"w", "img": 0},
+            {"letter":"x", "img": 0},
+            {"letter":"y", "img": 0},
+            {"letter":"z", "img": 0}]
+
+        function assignAlphabet(){
+            //I'm gonna shuffle an array of numbers to assign to each letter with the Fisher-Yates algorithm
+            var numbers = [];
+            for (var i=1; i<=26; i++){ //Not 0 cause it will be a special tile
+                numbers.push(i);
+            }
+
+            var i1=numbers.length;
+            var aux, i2;
+            while(i1){
+                i2=Math.floor(Math.random()*i1--);
+                aux = numbers[i1];
+                numbers[i1] = numbers[i2];
+                numbers[i2] = aux;
+            }
+
+            var n=0;
+            alphabet.forEach(function(x){
+                x.img=numbers[n];
+                n++;
+            });
+        }
+
         var map;
         function newMap(){
             map = [];
@@ -213,6 +263,8 @@
             }
         }
 
+        assignAlphabet();
+        console.log(JSON.stringify(alphabet));
         newMap();
         generateRooms();
         gameLoop();
