@@ -27,6 +27,11 @@
         var dir = "down";
         var currentRoom = 0;
 
+        var upWords = ["north", "up", "forward", "arctic", "prow"];
+        var downWords = ["south", "down", "back", "austral", "stern"];
+        var rightWords = ["east", "right", "starboard", "sunrise"];
+        var leftWords = ["west", "left", "port", "occident", "sunset"];
+
         var alphabet = [{"letter":"a", "img": 0},
             {"letter":"b", "img": 0},
             {"letter":"c", "img": 0},
@@ -127,6 +132,25 @@
                 room[tiles/2+1][tiles/2-2]=0;
                 room[tiles/2+1][tiles/2]=0;
                 room[tiles/2+1][tiles/2-1]=0;
+            }
+
+            switch(map[nRoom]){
+                case "up":
+                    var word = upWords[Math.floor(Math.random()*(upWords.length-1))];
+                    break;
+                case "down":
+                    var word = downWords[Math.floor(Math.random()*(downWords.length-1))];
+                    break;
+                case "left":
+                    var word = leftWords[Math.floor(Math.random()*(leftWords.length-1))];
+                    break;
+                case "right":
+                    var word = rightWords[Math.floor(Math.random()*(rightWords.length-1))];
+                    break;
+            }
+
+            for(var l=0; l<word.length;l++){
+                room[tiles/2+4][l+tiles/2-4]=alphabet[word.charCodeAt(l)-97].img;
             }
 
             return room;
