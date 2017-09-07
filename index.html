@@ -14,6 +14,9 @@
         clover.src = "clover.png";
         var tilesImg = new Image();
         tilesImg.src = "tiles.png";
+        var darkness = new Image();
+        darkness.src = "darkness.png";
+        //Every image will be scaled to twice its size so its more visible :)
 
         var tilesize = 8;
         var tiles = 32;
@@ -21,6 +24,7 @@
         var gamestate = 1;
 
         var charaX=tiles/2-1, charaY=tiles/2-1;
+        var darkX=-charaX, darkY=-charaY;
         var vx=0, vy=0;
         var frame=0;
         var turn = 0;
@@ -114,7 +118,7 @@
             for (var i=0; i < tiles; i++){
                 for (var j=0; j < tiles; j++){
                     if(Math.random()>0.9){
-                        var n = 27 + Math.floor(Math.random()*8)
+                        var n = 27 + Math.floor(Math.random()*8) //The last ones are less probable
                     }else{
                         var n = 27 + Math.floor(Math.random()*4);
                     }
@@ -184,6 +188,10 @@
                     break;
                 }
             turn=(turn+1)%20;
+
+            //Paint darkness (I could do this with canvas but I prefer it like this :3)
+            ctx.drawImage(darkness, 0, 0, 512, 512, darkX*tilesize*2+8, darkY*tilesize*2+8, 512*2, 512*2);
+
             setInterval(gameLoop, 100);
         }
 
@@ -299,6 +307,8 @@
                     currentRoom=0;
                 }
             }
+            darkX=charaX-tiles;
+            darkY=charaY-tiles;
         }
 
         assignAlphabet();
