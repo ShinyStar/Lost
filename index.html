@@ -33,7 +33,7 @@
 
         var upWords = ["north", "up", "forward", "arctic", "prow"];
         var downWords = ["south", "down", "back", "austral", "stern"];
-        var rightWords = ["east", "right", "starboard", "sunrise"];
+        var rightWords = ["east", "right", "starboard", "orient", "sunrise"];
         var leftWords = ["west", "left", "port", "occident", "sunset"];
 
         var alphabet = [{"letter":"a", "img": 0},
@@ -189,8 +189,12 @@
                 }
             turn=(turn+1)%20;
 
-            //Paint darkness (I could do this with canvas but I prefer it like this :3)
-            ctx.drawImage(darkness, 0, 0, 512, 512, darkX*tilesize*2+8, darkY*tilesize*2+8, 512*2, 512*2);
+            //Paint darkness
+            var darkness=ctx.createRadialGradient(charaX*tilesize*2,charaY*tilesize*2,10,charaX*tilesize*2,charaY*tilesize*2, 100);
+            darkness.addColorStop(0,"rgba(0,0,0,0)");
+            darkness.addColorStop(1,"black");
+            ctx.fillStyle=darkness;
+            ctx.fillRect(0,0, 512, 512);
 
             setInterval(gameLoop, 100);
         }
