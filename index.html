@@ -14,9 +14,10 @@
         clover.src = "clover.png";
         var tilesImg = new Image();
         tilesImg.src = "tiles.png";
-        var darkness = new Image();
-        darkness.src = "darkness.png";
         //Every image will be scaled to twice its size so its more visible :)
+
+        var currentR = 11;
+        var inc = 0.1;
 
         var tilesize = 8;
         var tiles = 32;
@@ -190,7 +191,11 @@
             turn=(turn+1)%20;
 
             //Paint darkness
-            var darkness=ctx.createRadialGradient(charaX*tilesize*2,charaY*tilesize*2,10,charaX*tilesize*2,charaY*tilesize*2, 100);
+            if(currentR>=50 || currentR<=2){
+                inc=-inc;
+            }
+            currentR+=inc;
+            var darkness=ctx.createRadialGradient(charaX*tilesize*2,charaY*tilesize*2,currentR,charaX*tilesize*2,charaY*tilesize*2, 100);
             darkness.addColorStop(0,"rgba(0,0,0,0)");
             darkness.addColorStop(1,"black");
             ctx.fillStyle=darkness;
